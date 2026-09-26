@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><title>Quadratic Lab — Interactive Solver</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070a13;--panel:#101626;--inner:#0c1220;--line:#ffffff12;--text:#e9eef9;--muted:#98a9c2;--cyan:#06c8e2;--violet:#9a6bff;--indigo:#818cf8;--green:#20e7ae;--amber:#fbbf24;--rose:#fb7185}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 35% 0%,#28234b55,transparent 55%),radial-gradient(ellipse at 75% 100%,#06384433,transparent 60%),var(--bg);color:var(--text);font:12px/1.5 Inter,system-ui,sans-serif;min-height:100vh}button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}button:disabled{opacity:.5;cursor:wait}button:focus-visible,summary:focus-visible{outline:2px solid var(--cyan);outline-offset:4px}.mono,code{font-family:'JetBrains Mono',ui-monospace,monospace}h1,h2,.brand{font-family:'Space Grotesk',Inter,system-ui,sans-serif}h1{font-size:19px;line-height:1.25;margin:12px 0 7px}h2{font-size:13px;margin:0;font-weight:600}.cyan{color:var(--cyan)}.violet{color:var(--violet)}.indigo{color:var(--indigo)}.green{color:var(--green)}.amber{color:var(--amber)}.rose{color:var(--rose)}.muted{color:var(--muted)}.small{font-size:10px}.tiny{font-size:9px}.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.badge{border:1px solid #818cf833;background:#818cf810;padding:3px 7px;border-radius:5px;font:10px 'JetBrains Mono',monospace;white-space:nowrap}.badge.live{color:var(--green);border-color:#20e7ae30;background:#20e7ae09;border-radius:99px}.top{min-height:54px;padding:10px 20px;background:#070a13cc;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{font-size:18px;font-weight:700;white-space:nowrap;display:flex;align-items:center;gap:9px}.brand-mark{display:grid;place-items:center;width:30px;height:30px;background:linear-gradient(135deg,#6366f1,#9a6bff);border:1px solid #ffffff50;border-radius:9px;box-shadow:0 0 14px #6366f144;font-size:22px}nav{display:flex;gap:8px;align-items:center;flex:1;margin-left:10px}nav button,.sub-button{background:transparent;border:1px solid transparent;color:var(--muted);border-radius:6px;padding:5px 9px}nav button:hover,.sub-button:hover{background:#ffffff08;color:var(--text)}nav .active{background:#ffffff08;border-color:#ffffff19;color:var(--text)}.outline{background:#151e32;border:1px solid #334155;border-radius:5px;padding:5px 10px}.outline:hover{border-color:var(--indigo)}main{display:grid;grid-template-columns:minmax(255px,4fr) minmax(400px,5fr) minmax(260px,3fr);gap:12px;padding:14px;min-height:calc(100vh - 91px)}.column{display:flex;flex-direction:column;gap:12px;min-width:0}.panel{background:linear-gradient(135deg,#111628ed,#0d1420ed);border:1px solid #ffffff16;border-radius:16px;padding:14px;box-shadow:inset 0 1px 0 #ffffff05;min-width:0}.glow{box-shadow:inset 0 1px 0 #c4b5fd22,0 0 22px #6366f10b}.panel-header{display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line);padding-bottom:11px;margin-bottom:11px}.icon{color:var(--indigo);margin-right:7px}.hero p{color:var(--muted);margin:0 0 14px;line-height:1.55}.generate{border:1px solid transparent;background:linear-gradient(#0c1424,#0c1424) padding-box,linear-gradient(110deg,#6366f1,#8b5cf6,#06b6d4) border-box;display:flex;align-items:center;gap:9px;width:100%;padding:12px 14px;border-radius:12px;font-weight:600;box-shadow:0 0 15px #6366f10a;transition:box-shadow .2s,transform .2s}.generate:hover{box-shadow:0 0 18px #6366f12a;transform:translateY(-1px)}kbd{margin-left:auto;background:#ffffff08;border:1px solid var(--line);padding:0 4px;border-radius:4px;color:var(--muted);font-size:10px}.hero-note{margin-top:8px}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px}.metric,.inner{background:#080e1a66;border:1px solid #ffffff09;border-radius:10px;padding:10px}.metric label{display:block;color:var(--muted);font-size:10px;margin-bottom:6px}.metric code{font-size:12px;overflow-wrap:anywhere}.flow-panel{flex:1;display:flex;flex-direction:column;min-height:250px}.flow{flex:1;display:flex;align-items:center;justify-content:space-between;gap:5px;padding:32px 0}.flow-node{text-align:center;flex-shrink:0;font-size:9px}.flow-node b{display:grid;place-items:center;margin:0 auto 6px;width:31px;height:31px;border:1px solid #818cf860;background:#17223a;border-radius:8px;font-size:17px}.connector{height:1px;background:linear-gradient(90deg,var(--violet),var(--cyan));flex:1;min-width:8px;margin-top:-21px}.request-line{padding:7px 9px;border-radius:8px;background:#05091388;font-size:10px}.equation{font:600 clamp(23px,2.3vw,33px) 'JetBrains Mono',monospace;text-align:center;padding:13px 5px;border:1px solid #ffffff19;border-radius:10px;background:linear-gradient(#0c101c,#080c16);white-space:nowrap}.coeffs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:8px}.coef{text-align:center;border-top:2px solid currentColor;padding:8px 5px;background:#0b1020;border-radius:9px}.coef span,.coef small{display:block;color:var(--muted);font-size:9px}.coef b{font:500 19px 'JetBrains Mono',monospace;display:block;margin:4px}.coef small{font:9px 'JetBrains Mono',monospace}.graph-panel{flex:1;display:flex;flex-direction:column}.graph-tools{display:flex;gap:4px}.graph-tools button{min-width:28px;height:26px;padding:0 5px}.plot-wrap{position:relative;min-height:300px;flex:1;background:#070b14;border:1px solid var(--line);border-radius:9px;overflow:hidden}canvas{display:block;position:absolute;width:100%;height:100%;cursor:crosshair}.legend{position:absolute;left:8px;top:8px;display:flex;gap:5px;pointer-events:none}.legend span{font:9px 'JetBrains Mono',monospace;padding:3px 5px;border:1px solid #ffffff1a;border-radius:4px;background:#070a13dd}.axis-tag{position:absolute;right:7px;bottom:7px;font:9px 'JetBrains Mono',monospace;background:#080b16dd;padding:3px 6px;border-radius:4px}.graph-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:7px}.graph-meta>div{padding:7px 3px;text-align:center;background:#0a1020;border:1px solid var(--line);border-radius:5px;font:10px 'JetBrains Mono',monospace}.graph-meta label{display:block;color:var(--muted);font-size:9px;margin-bottom:4px}.readout{font:9px 'JetBrains Mono',monospace;color:var(--cyan);text-align:right;margin:-3px 0 7px}.roots{display:flex;gap:8px;margin-top:10px}.root{flex:1;border-left:1px solid var(--green);min-width:0}.root:nth-child(2){border-color:var(--cyan)}.root b{display:block;font:600 23px 'JetBrains Mono',monospace;margin:4px 0}.root small{font-size:9px;color:var(--muted)}.solutions-note{border-top:1px solid var(--line);margin-top:10px;padding-top:8px;font-size:9px;color:var(--muted)}.step{margin-bottom:8px}.step:last-child{margin:0}.step label{font-size:10px;color:var(--muted);display:block;margin-bottom:7px}.step code{font-size:11px;overflow-wrap:anywhere;display:block}.history-panel{flex:1;display:flex;flex-direction:column;min-height:270px}.history-scroll{overflow-x:auto;flex:1}table{width:100%;border-collapse:collapse;font-size:9px;text-align:left}th{color:#8a9db9;font-weight:500;padding:0 4px 7px}td{padding:8px 4px;border-bottom:1px solid #ffffff07;font-family:'JetBrains Mono',monospace;vertical-align:top;overflow-wrap:anywhere}td:nth-child(2){min-width:100px}td:last-child{max-width:100px}th:last-child{text-align:right}td:last-child{text-align:right;color:var(--indigo)}.history-foot{border-top:1px solid var(--line);padding-top:9px;margin-top:12px;flex-wrap:wrap;font-size:9px}.footer{min-height:37px;padding:9px 20px;border-top:1px solid var(--line);font:10px 'JetBrains Mono',monospace;display:flex;justify-content:space-between;gap:15px;color:var(--muted)}.error{margin:12px 14px 0;background:#fb71850e;border:1px solid #fb718555;padding:10px 14px;border-radius:10px;color:#fda4af}.hidden,[hidden]{display:none!important}.sr-only{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0,0,0,0)}dialog{background:#101728;color:var(--text);border:1px solid #818cf850;border-radius:16px;width:min(520px,calc(100% - 32px));padding:22px;box-shadow:0 24px 100px #0009}dialog::backdrop{background:#000a;backdrop-filter:blur(5px)}dialog p,dialog li{color:var(--muted);line-height:1.8}dialog li{margin-bottom:8px}dialog ul{padding-left:20px}#nodes-list .inner{margin-top:9px}#nodes-list code{display:block}.spin{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+@media(min-width:1200px){.plot-wrap{min-height:340px}main{min-height:calc(100vh - 91px)}}@media(max-width:1150px){main{grid-template-columns:minmax(260px,4fr) minmax(400px,6fr)}.right-column{grid-column:1/-1;display:grid;grid-template-columns:1fr 1.5fr}.top .version{display:none}nav{margin:0}.history-panel{min-height:220px}.flow-panel{min-height:250px}}@media(max-width:760px){.top{padding:12px 15px;flex-wrap:wrap;gap:10px}.brand{font-size:17px}nav{order:3;width:100%;flex:auto;overflow-x:auto}nav button{white-space:nowrap;padding:7px 8px;font-size:11px}.top>.outline{display:none}main{display:flex;flex-direction:column;padding:10px;gap:10px}.column{gap:10px}.left-column{display:contents}.hero{order:0}.center-column{order:1}.node-panel{order:2}.flow-panel{order:3;min-height:170px;flex:auto}.right-column{order:4;display:flex}.flow{padding:25px 0}.panel{padding:13px;border-radius:13px}.plot-wrap{height:360px;flex:auto;min-height:300px}.equation{font-size:26px}.graph-meta>div{font-size:9px}.footer{flex-direction:column;gap:5px;padding:12px 15px}.history-panel{min-height:230px}.legend span{font-size:8px}.error{margin:10px 10px 0}.hero-note{font-size:9px}}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<header class="top"><div class="brand"><span class="brand-mark" aria-hidden="true">▤</span><span>Quadratic<span class="cyan">Lab</span></span><span class="badge indigo version">M01 · 2D VISUAL ENGINE</span></div><nav aria-label="Dashboard"><span class="active badge"> <span class="cyan">●</span> Interactive Visualizer</span><button onclick="openDialog('info-dialog')">How It Works</button><button onclick="openDialog('nodes-dialog')">Observed Nodes</button></nav><span class="badge live" id="system-status">● CONNECTING</span><button class="outline mono small" onclick="generateAndSolve()">↻ New request</button></header>
+<div id="error" class="error" role="alert" hidden></div><div id="announce" class="sr-only" aria-live="polite"></div>
+<main>
+<div class="column left-column">
+<section class="panel glow hero"><div class="row"><span class="cyan mono tiny">ϟ SERVER-SIDE COMPUTATION</span><span class="badge muted">Python backend</span></div><h1>Quadratic Equation Solver</h1><p>Generate random coefficients <span class="indigo mono">(a ≠ 0)</span>, solve roots on your server, and explore the curve in real time.</p><button class="generate" id="solve-btn" onclick="generateAndSolve()"><span class="cyan" id="btn-icon">↻</span><span id="btn-text">Generate &amp; Solve Equation</span><kbd>⌘/Ctrl ↵</kbd></button><div class="row hero-note mono tiny"><span class="muted">Coefficients server-randomized</span><span class="green" id="sync-status">Awaiting response</span></div></section>
+<section class="panel node-panel"><div class="panel-header"><h2><span class="icon">▣</span>Request Processing Node</h2><span class="badge cyan tiny">SERVER RESPONSE</span></div><div class="metrics"><div class="metric"><label>Server hostname</label><code class="indigo" id="node-hostname">—</code></div><div class="metric"><label>Assigned IP address</label><code class="cyan" id="node-ip">—</code></div><div class="metric"><label>Execution status</label><code class="green" id="node-status">Connecting</code></div><div class="metric"><label>Request round trip</label><code id="node-latency">—</code></div></div></section>
+<section class="panel flow-panel"><div class="row"><h2 class="small"><span class="violet">▣</span> Request Architecture Flow</h2><span class="mono tiny muted">HTTP · JSON</span></div><div class="flow" aria-label="Browser requests equation from Python API, server computes roots, response returns to browser"><div class="flow-node"><b>▱</b>Browser</div><span class="connector"></span><div class="flow-node indigo"><b>▤</b>Python API</div><span class="connector"></span><div class="flow-node cyan"><b>ƒ</b>Computation</div><span class="connector"></span><div class="flow-node green"><b>✓</b>Response</div></div><div class="row request-line mono"><span class="muted"><span class="indigo">●</span> GET /api/solve</span><span class="green" id="http-status">Waiting</span></div></section>
+</div>
+<div class="column center-column">
+<section class="panel glow"><div class="row" style="margin-bottom:9px"><span class="mono tiny muted">GENERATED EQUATION</span><span class="badge live" id="validation">Awaiting coefficients</span></div><div class="equation" id="equation-display">Loading…</div><div class="coeffs"><div class="coef cyan"><span>Coefficient A</span><b id="coeff-a">—</b><small>Quadratic</small></div><div class="coef violet"><span>Coefficient B</span><b id="coeff-b">—</b><small>Linear</small></div><div class="coef indigo"><span>Coefficient C</span><b id="coeff-c">—</b><small>Constant</small></div></div></section>
+<section class="panel glow graph-panel"><div class="panel-header"><h2><span class="cyan">▧</span> 2D Parabola Graph</h2><div class="graph-tools"><button class="outline" onclick="zoomGraph(1.2)" aria-label="Zoom in">+</button><button class="outline" onclick="zoomGraph(0.8)" aria-label="Zoom out">−</button><button class="outline" onclick="resetGraphView()" aria-label="Fit graph">⟲</button></div></div><div id="graph-cursor-readout" class="readout">Move over the graph to explore f(x)</div><div class="plot-wrap"><canvas id="parabolaCanvas" role="img" aria-label="Quadratic graph awaiting coefficients"></canvas><div class="legend"><span class="cyan">● Parabola</span><span class="amber">● Vertex (h, k)</span><span class="green">● Roots (y = 0)</span></div><span id="graph-axis-tag" class="axis-tag indigo">Axis: —</span></div><div class="graph-meta"><div><label>Vertex (h, k)</label><span class="amber" id="graph-vertex-val">—</span></div><div><label>Y-intercept (0, c)</label><span class="indigo" id="graph-yint-val">—</span></div><div><label>Direction / curvature</label><span class="cyan" id="graph-dir-val">—</span></div></div></section>
+<section class="panel"><div class="panel-header"><div><h2>Computed Solutions</h2><span class="muted tiny mono">Discriminant analysis results</span></div><span class="badge green" id="discriminant-badge">Δ = —</span></div><div id="solution-kind" class="green">Waiting for a server response</div><div class="roots" id="roots"></div><div class="solutions-note mono">Real-number solutions · Server roots rounded to 4 decimals</div></section>
+</div>
+<div class="column right-column">
+<section class="panel"><div class="panel-header"><h2><span class="cyan">♧</span> Calculation Breakdown</h2><span class="mono tiny muted">Step by step</span></div><div class="inner step"><label>1. Quadratic formula</label><code class="indigo">x = (−b ± √(b² − 4ac)) / (2a)</code></div><div class="inner step"><label>2. Discriminant substitution</label><code class="cyan" id="calc-step-discriminant">Δ = b² − 4ac</code></div><div class="inner step"><label>3. Root classification</label><code class="green" id="calc-step-conclusion">Waiting for coefficients</code></div></section>
+<section class="panel history-panel"><div class="panel-header"><h2><span class="icon">◷</span>Recent Generations</h2><span class="mono tiny muted">Last 5 requests</span></div><div class="history-scroll"><table><thead><tr><th scope="col">Time</th><th scope="col">Equation</th><th scope="col">Roots</th><th scope="col">Node</th></tr></thead><tbody id="history-tbody"><tr><td colspan="4">No requests yet.</td></tr></tbody></table></div><div class="row history-foot mono"><span class="muted">Successful queries: <strong id="total-queries">0</strong></span><span class="green" id="average">Avg: —</span></div></section>
+</div>
+</main>
+<footer class="footer"><span><strong style="color:var(--text)">Quadratic Lab</strong> · Milestone 01 · Interactive 2D Visualizer</span><span>HTML5 Canvas · Python / Flask <span class="cyan">· Live API data</span></span></footer>
+<dialog id="info-dialog" aria-labelledby="info-title"><div class="row"><h2 id="info-title">How Quadratic Lab Works</h2><button class="outline" onclick="this.closest('dialog').close()" aria-label="Close explanation">×</button></div><ol><li>Your browser requests <code>/api/solve</code>. Python chooses a nonzero <code>a</code> and random <code>b</code> and <code>c</code>.</li><li>The server calculates the discriminant and real roots, returning its hostname and IP address with the result.</li><li>The browser plots the curve, vertex, symmetry axis, and real roots. Use +, −, or ⟲ to adjust the graph.</li></ol><p>Press <kbd>⌘/Ctrl + Enter</kbd> for a new equation. Request time measures the browser’s full round trip, not only computation.</p></dialog>
+<dialog id="nodes-dialog" aria-labelledby="nodes-title"><div class="row"><h2 id="nodes-title">Observed Server Nodes</h2><button class="outline" onclick="this.closest('dialog').close()" aria-label="Close nodes">×</button></div><p>Nodes that have answered successful requests in this session. This is an observation history, not a live health check.</p><div id="nodes-list"><p>No server responses yet.</p></div></dialog>
+<script>
+'use strict';
+const $=id=>document.getElementById(id),txt=(id,value)=>$(id).textContent=value;
+let currentEq=null,busy=false,queryCount=0,totalLatency=0,records=[],nodes=new Map();
+let graphScale=22,panOffset={x:0,y:0},mousePos={x:null,y:null};
+const canvas=$('parabolaCanvas'),ctx=canvas.getContext('2d');
+const fmt=v=>String(Number(v.toFixed(4)));
+function openDialog(id){$(id).showModal()}
+function resizeCanvas(){const r=canvas.getBoundingClientRect(),dpr=window.devicePixelRatio||1;canvas.width=r.width*dpr;canvas.height=r.height*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);resetGraphView()}
+function resetGraphView(){if(!currentEq)return;const r=canvas.getBoundingClientRect(),{a,b,c,delta}=currentEq,h=-b/(2*a),k=-delta/(4*a);const roots=delta>=0?[currentEq.x1,currentEq.x2]:[h];const xmin=Math.min(0,h,...roots)-2,xmax=Math.max(0,h,...roots)+2,ymin=Math.min(0,k,c)-2,ymax=Math.max(0,k,c)+2;graphScale=Math.max(.1,Math.min(36,(r.width-70)/(xmax-xmin),(r.height-70)/(ymax-ymin)));panOffset={x:-(xmin+xmax)/2*graphScale,y:(ymin+ymax)/2*graphScale};mousePos={x:null,y:null};renderParabolaGraph()}
+function zoomGraph(factor){if(!currentEq)return;const old=graphScale;graphScale=Math.max(.05,Math.min(150,graphScale*factor));panOffset.x*=graphScale/old;panOffset.y*=graphScale/old;renderParabolaGraph()}
+canvas.addEventListener('pointermove',e=>{if(!currentEq)return;const r=canvas.getBoundingClientRect();mousePos={x:e.clientX-r.left,y:e.clientY-r.top};const x=(mousePos.x-r.width/2-panOffset.x)/graphScale,y=currentEq.a*x*x+currentEq.b*x+currentEq.c;txt('graph-cursor-readout',`x = ${fmt(x)} · f(x) = ${fmt(y)}`);renderParabolaGraph()});
+canvas.addEventListener('pointerleave',()=>{mousePos={x:null,y:null};txt('graph-cursor-readout','Move over the graph to explore f(x)');renderParabolaGraph()});
+    function renderParabolaGraph() {
+      if (!currentEq) return;
+      const rect = canvas.getBoundingClientRect();
+      const width = rect.width;
+      const height = rect.height;
+      if (width === 0 || height === 0) return;
+
+      ctx.clearRect(0, 0, width, height);
+
+      const originX = (width / 2) + panOffset.x;
+      const originY = (height / 2) + panOffset.y;
+
+      // 1. Grid Lines
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.04)";
+      ctx.fillStyle = "rgba(148, 163, 184, 0.4)";
+      ctx.font = "9px 'JetBrains Mono', monospace";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+
+      const gridUnit = Math.max(1, 10 ** Math.ceil(Math.log10(18 / graphScale)));
+      const step = graphScale * gridUnit;
+      const startX = originX % step;
+      for (let x = startX; x < width; x += step) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, height);
+        ctx.stroke();
+
+        const numX = Math.round((x - originX) / step) * gridUnit;
+        if (numX !== 0 && Math.abs(x - originX) > 15 && Math.abs(numX) % 2 === 0) {
+          ctx.fillText(numX, x, Math.min(Math.max(originY + 12, 10), height - 10));
+        }
+      }
+
+      const startY = originY % step;
+      for (let y = startY; y < height; y += step) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(width, y);
+        ctx.stroke();
+
+        const numY = Math.round((originY - y) / step) * gridUnit;
+        if (numY !== 0 && Math.abs(y - originY) > 10 && Math.abs(numY) % 2 === 0) {
+          ctx.fillText(numY, Math.min(Math.max(originX - 12, 15), width - 15), y);
+        }
+      }
+
+      // 2. Primary X and Y Coordinate Axes
+      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = "rgba(148, 163, 184, 0.35)";
+      
+      // X-Axis
+      ctx.beginPath();
+      ctx.moveTo(0, originY);
+      ctx.lineTo(width, originY);
+      ctx.stroke();
+
+      // Y-Axis
+      ctx.beginPath();
+      ctx.moveTo(originX, 0);
+      ctx.lineTo(originX, height);
+      ctx.stroke();
+
+      // Origin indicator (0,0)
+      ctx.fillStyle = "rgba(148, 163, 184, 0.6)";
+      ctx.fillText("0", originX - 8, originY + 8);
+
+      // 3. Axis of Symmetry (Dashed vertical line at x = -b/(2a))
+      const h = -currentEq.b / (2 * currentEq.a);
+      const axisScreenX = originX + (h * graphScale);
+
+      ctx.save();
+      ctx.setLineDash([4, 4]);
+      ctx.lineWidth = 1.2;
+      ctx.strokeStyle = "rgba(139, 92, 246, 0.55)"; // Accent Violet
+      ctx.beginPath();
+      ctx.moveTo(axisScreenX, 0);
+      ctx.lineTo(axisScreenX, height);
+      ctx.stroke();
+      ctx.restore();
+
+      // 4. Parabolic Curve f(x) = ax² + bx + c
+      ctx.save();
+      ctx.lineWidth = 2.5;
+      ctx.strokeStyle = "#06B6D4"; // Electric Cyan
+      ctx.shadowColor = "rgba(6, 182, 212, 0.65)";
+      ctx.shadowBlur = 10;
+
+      ctx.beginPath();
+      let started = false;
+      const stepPixels = 2;
+
+      for (let px = 0; px <= width; px += stepPixels) {
+        const mathX = (px - originX) / graphScale;
+        const mathY = (currentEq.a * mathX * mathX) + (currentEq.b * mathX) + currentEq.c;
+        const py = originY - (mathY * graphScale);
+
+        if (!started) {
+          ctx.moveTo(px, py);
+          started = true;
+        } else {
+          ctx.lineTo(px, py);
+        }
+      }
+      ctx.stroke();
+      ctx.restore();
+
+      // 5. Y-Intercept Dot (0, c)
+      const yIntScreenX = originX;
+      const yIntScreenY = originY - (currentEq.c * graphScale);
+      if (yIntScreenY >= -10 && yIntScreenY <= height + 10) {
+        ctx.beginPath();
+        ctx.arc(yIntScreenX, yIntScreenY, 3.5, 0, Math.PI * 2);
+        ctx.fillStyle = "#818CF8";
+        ctx.fill();
+        ctx.strokeStyle = "#0F172A";
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }
+
+      // 6. Vertex Dot (h, k)
+      const k = (currentEq.a * h * h) + (currentEq.b * h) + currentEq.c;
+      const vertexScreenX = originX + (h * graphScale);
+      const vertexScreenY = originY - (k * graphScale);
+
+      if (vertexScreenX >= -10 && vertexScreenX <= width + 10 && vertexScreenY >= -10 && vertexScreenY <= height + 10) {
+        ctx.save();
+        ctx.shadowColor = "rgba(245, 158, 11, 0.8)";
+        ctx.shadowBlur = 8;
+        ctx.beginPath();
+        ctx.arc(vertexScreenX, vertexScreenY, 5, 0, Math.PI * 2);
+        ctx.fillStyle = "#F59E0B"; // Amber
+        ctx.fill();
+        ctx.strokeStyle = "#FFFFFF";
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        ctx.restore();
+
+        // Vertex coordinate badge on graph
+        ctx.fillStyle = "rgba(245, 158, 11, 0.9)";
+        ctx.font = "8px 'JetBrains Mono', monospace";
+        ctx.fillText(`V (${h.toFixed(2)}, ${k.toFixed(2)})`, vertexScreenX + 38, vertexScreenY - 6);
+      }
+
+      // 7. Real Roots (X-intercepts where y = 0)
+      if (currentEq.delta >= 0) {
+        const rootPoints = [];
+        if (currentEq.delta > 0) {
+          rootPoints.push({ val: currentEq.x1, label: `x₁=${currentEq.x1.toFixed(2)}` });
+          rootPoints.push({ val: currentEq.x2, label: `x₂=${currentEq.x2.toFixed(2)}` });
+        } else {
+          rootPoints.push({ val: h, label: `x₀=${h.toFixed(2)}` });
+        }
+
+        rootPoints.forEach((r, idx) => {
+          const rootScreenX = originX + (r.val * graphScale);
+          const rootScreenY = originY;
+
+          if (rootScreenX >= -20 && rootScreenX <= width + 20) {
+            ctx.save();
+            ctx.shadowColor = "rgba(16, 185, 129, 0.9)";
+            ctx.shadowBlur = 10;
+
+            // Outer ring
+            ctx.beginPath();
+            ctx.arc(rootScreenX, rootScreenY, 6, 0, Math.PI * 2);
+            ctx.strokeStyle = "#10B981"; // Emerald
+            ctx.lineWidth = 2;
+            ctx.fillStyle = "rgba(16, 185, 129, 0.25)";
+            ctx.fill();
+            ctx.stroke();
+
+            // Inner center dot
+            ctx.beginPath();
+            ctx.arc(rootScreenX, rootScreenY, 2.5, 0, Math.PI * 2);
+            ctx.fillStyle = "#FFFFFF";
+            ctx.fill();
+            ctx.restore();
+
+            // Root label text
+            ctx.fillStyle = "#34D399";
+            ctx.font = "9px 'JetBrains Mono', monospace";
+            const yOffset = (idx % 2 === 0) ? -12 : 16;
+            ctx.fillText(r.label, rootScreenX, rootScreenY + yOffset);
+          }
+        });
+      }
+
+      // 8. Interactive Cursor Tracking Dot on the Parabola
+      if (mousePos.x !== null) {
+        const curMathX = (mousePos.x - originX) / graphScale;
+        const curMathY = (currentEq.a * curMathX * curMathX) + (currentEq.b * curMathX) + currentEq.c;
+        const curScreenY = originY - (curMathY * graphScale);
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(mousePos.x, curScreenY, 4, 0, Math.PI * 2);
+        ctx.fillStyle = "#38BDF8";
+        ctx.strokeStyle = "#FFFFFF";
+        ctx.lineWidth = 1.5;
+        ctx.fill();
+        ctx.stroke();
+
+        // Vertical drop line to axis
+        ctx.setLineDash([2, 2]);
+        ctx.strokeStyle = "rgba(56, 189, 248, 0.4)";
+        ctx.beginPath();
+        ctx.moveTo(mousePos.x, curScreenY);
+        ctx.lineTo(mousePos.x, originY);
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+
+function term(sym,v,first=false){if(v===0)return '';return(first?(v<0?'−':''):(v<0?' − ':' + '))+(Math.abs(v)===1&&sym?'':Math.abs(v))+sym}
+function equation(d){return term('x²',d.a,true)+term('x',d.b)+term('',d.c)+' = 0'}
+function setStatus(message,color='green'){$('system-status').className='badge '+color;txt('system-status','● '+message)}
+function renderResult(d,latency){const {a,b,c,discriminant:delta,roots}=d;currentEq={a,b,c,delta,x1:roots[0],x2:roots[1]??roots[0],hasRealRoots:delta>=0};
+ txt('equation-display',equation(d));['a','b','c'].forEach(k=>txt('coeff-'+k,d[k]));txt('validation','A ≠ 0 ✓');txt('node-hostname',d.hostname);txt('node-ip',d.ip);txt('node-latency',latency+' ms');txt('node-status','● Request processed');txt('sync-status','● Plot synced');txt('discriminant-badge','Δ = '+delta);
+ const color=delta>0?'green':delta===0?'amber':'rose',kind=delta>0?'Two distinct real solutions':delta===0?'One repeated real root':'No real solutions';$('solution-kind').className=color;txt('solution-kind',(delta>=0?'✓ ':'')+kind);$('discriminant-badge').className='badge '+color;
+ txt('calc-step-discriminant',`Δ = (${b})² − 4(${a})(${c}) = ${delta}`);txt('calc-step-conclusion',`Δ ${delta>0?'>':delta===0?'=':'<'} 0 → ${kind}`);$('calc-step-conclusion').className=color;
+ $('roots').replaceChildren();if(roots.length){roots.forEach((r,i)=>{const div=document.createElement('div');div.className='inner root';const label=document.createElement('span');label.className='mono tiny muted';label.textContent=roots.length===1?'REPEATED ROOT (x)':'ROOT 0'+(i+1)+(i===0?' (x₁)':' (x₂)');const val=document.createElement('b');val.textContent=fmt(r);const note=document.createElement('small');note.textContent=roots.length===1?'Parabola touches the x-axis':'Parabola intersects the x-axis';div.append(label,val,note);$('roots').append(div)})}else{const div=document.createElement('div');div.className='inner muted small';div.textContent='The curve does not intersect the x-axis. A negative discriminant has no real square root.';$('roots').append(div)}
+ const h=-b/(2*a),k=-delta/(4*a);txt('graph-axis-tag','Axis: x = '+fmt(h));txt('graph-vertex-val',`(${fmt(h)}, ${fmt(k)})`);txt('graph-yint-val',`(0, ${c})`);txt('graph-dir-val',a>0?'Opens up (a > 0)':'Opens down (a < 0)');canvas.setAttribute('aria-label',`${equation(d)}. ${kind}. Roots: ${roots.join(', ')||'none'}. Vertex: (${fmt(h)}, ${fmt(k)}).`);resetGraphView();
+ queryCount++;totalLatency+=latency;txt('total-queries',queryCount);txt('average','Avg: '+Math.round(totalLatency/queryCount)+' ms');const time=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'});records.unshift({time,equation:equation(d),roots:roots.length+' real',hostname:d.hostname,color});records=records.slice(0,5);$('history-tbody').replaceChildren();for(const record of records){const tr=document.createElement('tr');for(const key of ['time','equation','roots','hostname']){const td=document.createElement('td');td.textContent=record[key];if(key==='roots')td.className=record.color;tr.append(td)}$('history-tbody').append(tr)}
+ nodes.set(d.hostname+'|'+d.ip,{hostname:d.hostname,ip:d.ip,time});$('nodes-list').replaceChildren();for(const node of nodes.values()){const div=document.createElement('div');div.className='inner';const name=document.createElement('code');name.className='indigo';name.textContent=node.hostname;const detail=document.createElement('span');detail.className='small muted';detail.textContent=node.ip+' · Last response '+node.time;div.append(name,detail);$('nodes-list').append(div)}txt('announce',equation(d)+'. '+kind+'.');
+}
+function valid(d){return d&&['a','b','c','discriminant'].every(k=>Number.isFinite(d[k]))&&d.a!==0&&Array.isArray(d.roots)&&d.roots.every(Number.isFinite)&&d.roots.length===(d.discriminant>0?2:d.discriminant===0?1:0)&&typeof d.hostname==='string'&&typeof d.ip==='string'}
+async function generateAndSolve(){if(busy)return;busy=true;$('solve-btn').disabled=true;$('btn-icon').classList.add('spin');txt('btn-text','Processing on server…');txt('node-status','Request in progress');txt('sync-status','Updating…');txt('http-status','Pending');setStatus('REQUESTING','cyan');$('error').hidden=true;const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),10000),start=performance.now();let status='Network error';try{const response=await fetch('/api/solve',{cache:'no-store',signal:controller.signal});status=response.status+' '+response.statusText;if(!response.ok)throw Error('HTTP '+response.status);const d=await response.json();if(!valid(d)){status='Invalid response';throw Error(status)}renderResult(d,Math.round(performance.now()-start));setStatus('RESPONSE RECEIVED');txt('http-status',response.status+' OK')}catch(e){txt('error','Could not get a valid response from /api/solve. Check that Flask is running and try again.'+(currentEq?' The last successful result remains visible.':''));$('error').hidden=false;setStatus('REQUEST FAILED','rose');txt('node-status','Request failed');txt('sync-status',currentEq?'Previous result shown':'No result yet');txt('http-status',e.name==='AbortError'?'Timed out':status);txt('announce','Request failed. Try again.');if(!currentEq)txt('equation-display','Awaiting server')}finally{clearTimeout(timer);busy=false;$('solve-btn').disabled=false;$('btn-icon').classList.remove('spin');txt('btn-text','Generate & Solve Equation')}}
+window.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='Enter'&&!document.querySelector('dialog[open]')){e.preventDefault();generateAndSolve()}});
+new ResizeObserver(resizeCanvas).observe(canvas.parentElement);generateAndSolve();
+</script></body></html>
